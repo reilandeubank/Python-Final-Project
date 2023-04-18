@@ -17,34 +17,36 @@ class data_analysis:
                                "Division", "WeightClassKg", "TotalKg", "Dots", 
                                "Tested", "Date"]]
     def print_menu(self):
-        print("\n")
+        print()
         print("Please select an option from the menu below:")
-        print("Option 1: Show the top 20 lifters in the SBD event")
-        print("Option 2: Show the top 20 lifters in the SBD event by age")
+        print("Option 1: Show the top 20 Raw lifters by Dots")
+        print("Option 2: Show the top 20 Raw + Wraps totals by age")
         print("Option 3: Show graph comparing equipped and raw lifters")
         print("Option 4: Show graph comparing totals with age")
-        choice = input("Which option would you like to select? (1 through 4, or 0 to quit): ")
+        choice = input("\nWhich option would you like to select? (1 through 4, or 0 to quit): ")
         print("\n")
         self.execute_menu(choice)
     def execute_menu(self, choice):
-        if choice == "1":
+        if choice == "1":                                   #Works 
             print("\n")
-            print(self.sbd.sort_values(by=['TotalKg'])[:20])
-        if choice == "2":
+            raw = self.sbd[self.sbd['Equipment'] == 'Raw']
+            sorted = raw.sort_values(by=['Dots'], ascending = False)[:500]
+            print(sorted.drop_duplicates(subset=['Name'], keep='first')[:20])
+        elif choice == "2":                                 #Works
             age = input("What age would you like to see the top 20 lifters for? ")
             print("\n")
-            age_lifters = self.sbd[self.sbd['Age'] == int(age)]
-            print(self.sbd.sort_values(by=['TotalKg'])[:20])
-        if choice == "3":
+            raw_wraps = self.sbd[(self.sbd['Equipment'] == 'Wraps')]
+            age_lifters = raw_wraps[raw_wraps['Age'] == int(age)]
+            print(age_lifters.sort_values(by=['TotalKg'])[:20], ascending = False)
+        elif choice == "3":                                 # Doesn't work
             plt.plot(self.sbd['Equipment'], self.sbd['TotalKg'])
             plt.show()
-        if choice == "4":
+        elif choice == "4":                                # Doesn't work           
             plt.plot(self.sbd['Age'], self.sbd['TotalKg'])
             plt.show()
         if choice == "0":
             print("Thank you for using the data analysis program!")
         else:
-            print("Please enter a valid choice (1 through 4, or 0 to quit)")
             self.print_menu()
 
 
