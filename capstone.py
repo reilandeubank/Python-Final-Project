@@ -39,9 +39,8 @@ class data_analysis:
             raw_wraps = self.sbd[(self.sbd['Equipment'] == 'Wraps')]
             age_lifters = raw_wraps[raw_wraps['Age'] == int(age)]
             print(age_lifters.sort_values(by=['TotalKg'], ascending = False)[:20])
-        elif choice == "3":                                 # Doesn't work
+        elif choice == "3":                                 # Works
             equip_choices = ["Raw", "Wraps", "Single-ply", "Multi-ply"]
-            genders = ["M", "F"]
             """To Do
             Create a boxplot with 4 different data sets, one for each equipment type, and shows the
             Mean, Median, and Standard Deviation for each equipment type"""
@@ -56,7 +55,7 @@ class data_analysis:
             ax = fig.add_axes([0, 0, 1, 1])
             ax.boxplot(data)
             plt.show()
-        elif choice == "4":                                # Works 
+        elif choice == "4":                                # Works kind of, needs better shit
             truncated = self.sbd[:1000]        
             plt.scatter(x = truncated['Age'], y = truncated['TotalKg'])
             plt.show()
