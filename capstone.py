@@ -1,5 +1,6 @@
 import pandas as pd
 from matplotlib import pyplot as plt
+import pyarrow.csv as csv
 
 
 class data_analysis:
@@ -37,12 +38,27 @@ class data_analysis:
             print("\n")
             raw_wraps = self.sbd[(self.sbd['Equipment'] == 'Wraps')]
             age_lifters = raw_wraps[raw_wraps['Age'] == int(age)]
-            print(age_lifters.sort_values(by=['TotalKg'])[:20], ascending = False)
+            print(age_lifters.sort_values(by=['TotalKg'], ascending = False)[:20])
         elif choice == "3":                                 # Doesn't work
-            plt.plot(self.sbd['Equipment'], self.sbd['TotalKg'])
+            equip_choices = ["Raw", "Wraps", "Single-ply", "Multi-ply"]
+            genders = ["M", "F"]
+            """To Do
+            Create a boxplot with 4 different data sets, one for each equipment type, and shows the
+            Mean, Median, and Standard Deviation for each equipment type"""
+            data = []
+            for i in range(4):
+                equip = self.sbd[self.sbd['Equipment'] == equip_choices[i]]
+                equip = equip.dropna(subset=['TotalKg'])
+                equip = equip[:10000]
+                print(equip)
+                data.append(equip['TotalKg'])
+            fig = plt.figure(figsize =(10, 7))
+            ax = fig.add_axes([0, 0, 1, 1])
+            ax.boxplot(data)
             plt.show()
-        elif choice == "4":                                # Doesn't work           
-            plt.plot(self.sbd['Age'], self.sbd['TotalKg'])
+        elif choice == "4":                                # Works 
+            truncated = self.sbd[:1000]        
+            plt.scatter(x = truncated['Age'], y = truncated['TotalKg'])
             plt.show()
         if choice == "0":
             print("Thank you for using the data analysis program!")
