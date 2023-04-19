@@ -1,6 +1,5 @@
 import pandas as pd
 from matplotlib import pyplot as plt
-import pyarrow.csv as csv
 
 
 class data_analysis:
