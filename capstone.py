@@ -16,6 +16,8 @@ class data_analysis:
         self.sbd = self.sbd[['Name', "Sex", "Equipment", "Age", 
                                "Division", "WeightClassKg", "TotalKg", "Dots", 
                                "Tested", "Date"]]
+    def remove_duplicates(self, df):
+        return df.drop_duplicates(subset=['Name'], keep='first')
     def print_menu(self):
         print()
         print("Please select an option from the menu below:")
@@ -31,31 +33,33 @@ class data_analysis:
             print("\n")
             raw = self.sbd[self.sbd['Equipment'] == 'Raw']
             sorted = raw.sort_values(by=['Dots'], ascending = False)[:500]
-            print(sorted.drop_duplicates(subset=['Name'], keep='first')[:20])
+            print(self.remove_duplicates(sorted)[:20])
         elif choice == "2":                                 #Works
             age = input("What age would you like to see the top 20 lifters for? ")
             print("\n")
             raw_wraps = self.sbd[(self.sbd['Equipment'] == 'Wraps')]
             age_lifters = raw_wraps[raw_wraps['Age'] == int(age)]
-            print(age_lifters.sort_values(by=['TotalKg'], ascending = False)[:20])
+            sorted = age_lifters.sort_values(by=['TotalKg'], ascending = False)
+            print(self.remove_duplicates(sorted)[:20])
         elif choice == "3":                                 # Works
             equip_choices = ["Raw", "Wraps", "Single-ply", "Multi-ply"]
-            """To Do
-            Create a boxplot with 4 different data sets, one for each equipment type, and shows the
-            Mean, Median, and Standard Deviation for each equipment type"""
             data = []
             for i in range(4):
                 equip = self.sbd[self.sbd['Equipment'] == equip_choices[i]]
-                equip = equip.dropna(subset=['TotalKg'])
-                equip = equip[:10000]
-                print(equip)
+                random = equip.sample(frac=0.1)
+                equip = random.dropna(subset=['TotalKg'])
+                equip = self.remove_duplicates(equip)[:10000]
+                # print(equip)
                 data.append(equip['TotalKg'])
             fig = plt.figure(figsize =(10, 7))
             ax = fig.add_axes([0, 0, 1, 1])
             ax.boxplot(data)
+            ax.set_xlabel('X Label')
+            ax.set_ylabel('Y Label')
             plt.show()
-        elif choice == "4":                                # Works kind of, needs better shit
-            truncated = self.sbd[:1000]        
+        elif choice == "4":                                # Works kind of
+            random = self.sbd.sample(n=3000)
+            truncated = self.remove_duplicates(random)[:2000]      
             plt.scatter(x = truncated['Age'], y = truncated['TotalKg'])
             plt.show()
         if choice == "0":
