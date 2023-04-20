@@ -23,7 +23,7 @@ class data_analysis:
         print("Please select an option from the menu below:")
         print("Option 1: Show the top 20 Raw lifters by Dots")
         print("Option 2: Show the top 20 Raw + Wraps totals by age")
-        print("Option 3: Show graph comparing equipped and raw lifters")
+        print("Option 3: Show graph comparing totals of Raw, Raw + Wraps, Single-ply, and Multi-ply lifters")
         print("Option 4: Show graph comparing totals with age")
         choice = input("\nWhich option would you like to select? (1 through 4, or 0 to quit): ")
         print("\n")
@@ -49,13 +49,12 @@ class data_analysis:
                 random = equip.sample(frac=0.1)
                 equip = random.dropna(subset=['TotalKg'])
                 equip = self.remove_duplicates(equip)[:10000]
-                # print(equip)
                 data.append(equip['TotalKg'])
             fig = plt.figure(figsize =(10, 7))
             ax = fig.add_axes([0, 0, 1, 1])
-            ax.boxplot(data)
             ax.set_xlabel('X Label')
             ax.set_ylabel('Y Label')
+            ax.boxplot(data)
             plt.show()
         elif choice == "4":                                # Works kind of
             random = self.sbd.sample(n=3000)
