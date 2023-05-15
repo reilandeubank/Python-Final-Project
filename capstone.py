@@ -32,8 +32,8 @@ class data_analysis:
         if choice == "1":                                   #Works 
             print("\n")
             raw = self.sbd[self.sbd['Equipment'] == 'Raw']
-            sorted = raw.sort_values(by=['Dots'], ascending = False)[:500]
-            print(self.remove_duplicates(sorted)[:20])
+            sorted_raw_lifters = raw.sort_values(by=['Dots'], ascending = False)[:500]
+            print(self.remove_duplicates(sorted_raw_lifters)[:20])
         elif choice == "2":                                 #Works
             age = input("What age would you like to see the top 20 lifters for? ")
             print("\n")
