@@ -4,10 +4,8 @@ from matplotlib import pyplot as plt
 
 class data_analysis:
     def __init__ (self):
-        print("importing files...")
-        open_pl = pd.read_csv("openpowerlifting.csv", low_memory=False)
-        # valid_date = open_pl['Date'].notnull()
-        # valid_date = valid_date[valid_date['Date'] != ""]
+        print("importing files...")j
+        open_pl = pd.read_csv("openpowerlifting.csv", low_memory=False)          #import the data from openpowerlifting.csv
         since_2015 = open_pl[open_pl['Date'] >="2015-01-01"]
         neater_data = since_2015[['Name', "Sex", "Event", "Equipment", "Age", 
                                "Division", "WeightClassKg", "TotalKg", "Dots", 
@@ -15,7 +13,7 @@ class data_analysis:
         self.sbd = neater_data[neater_data['Event'] == 'SBD']
         self.sbd = self.sbd[['Name', "Sex", "Equipment", "Age", 
                                "Division", "WeightClassKg", "TotalKg", "Dots", 
-                               "Tested", "Date"]]
+                               "Tested", "Date"]]                               #create a new dataframe with only the columns we need   
     def remove_duplicates(self, df):
         return df.drop_duplicates(subset=['Name'], keep='first')
     def print_menu(self):
@@ -28,8 +26,8 @@ class data_analysis:
         choice = input("\nWhich option would you like to select? (1 through 4, or 0 to quit): ")
         print("\n")
         self.execute_menu(choice)
-    def execute_menu(self, choice):
-        if choice == "1":                                   #Works 
+    def execute_menu(self, choice):                                             #function to execute the menu based on user input
+        if choice == "1":                                  
             print("\n")
             raw = self.sbd[self.sbd['Equipment'] == 'Raw']
             sorted_raw_lifters = raw.sort_values(by=['Dots'], ascending = False)[:500]
@@ -56,7 +54,7 @@ class data_analysis:
             ax.set_ylabel('Y Label')
             ax.boxplot(data)
             plt.show()
-        elif choice == "4":                                # Works kind of
+        elif choice == "4":                                
             random = self.sbd.sample(n=3000)
             truncated = self.remove_duplicates(random)[:2000]      
             plt.scatter(x = truncated['Age'], y = truncated['TotalKg'])
@@ -69,4 +67,4 @@ class data_analysis:
 
 myData = data_analysis()
 print("Welcome to the data analysis program!")
-myData.print_menu()
+myData.print_menu()                                         #call the print_menu function to start the program
